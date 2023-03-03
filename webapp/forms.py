@@ -13,30 +13,29 @@ class ProjectForm(forms.ModelForm):
             "description",
         )
 
+# class QuestionForm(forms.ModelForm):
+#     class Meta:
+#         model = Question
+#         fields = (
+#
+#         )
 
-class QuestionForm(forms.ModelForm):
-    class Meta:
-        model = Question
-        fields = (
 
-        )
-
-class ProjectForm(ModelForm):
+class Project02Form(ModelForm):
     class Meta:
         model = Project
-        fields = ['title', 'description']
 
 
 class QuestionForm(ModelForm):
     class Meta:
         model = Question
-        exclude = ('primary',)
+        exclude = ('Project',)
 
 
 class ChoiceForm(ModelForm):
     class Meta:
         model = Choice
-        exclude = ('primary',)
+        exclude = ('Question',)
 
 # ProjectFormSet = inlineformset_factory(
 #     User,

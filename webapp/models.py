@@ -47,22 +47,21 @@ class Question(models.Model):
     question_text = models.CharField(max_length=200)
     type_question = models.CharField(max_length=255, choices=TYPE_QUESTION, default='TEXT')
 
-    def __str__(self):
-        return self.question_text
-
-
-class Choice(models.Model):
-    question = models.ForeignKey(Question, related_name="question_choice", on_delete=models.CASCADE)
     option1 = models.CharField(max_length=100, null=True, blank=True)
     option2 = models.CharField(max_length=100, null=True, blank=True)
     option3 = models.CharField(max_length=100, null=True, blank=True)
     option4 = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
+        return self.question_text
+
+
+class Choice(models.Model):
+    question = models.ForeignKey(Question, related_name="question", on_delete=models.CASCADE)
+    option = models.CharField(max_length=100, null=True, blank=True)
+
+    def __str__(self):
         return self.question.question_text
-    #
-    # def getQuestionText(self):
-    #     return self.Question.question_text
 
 
 class Answer(models.Model):

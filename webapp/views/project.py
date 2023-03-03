@@ -17,36 +17,19 @@ from django.views.generic import (
 )
 
 
-# @login_required()
-# def CreateProject(request):
-#     context = {
-#         'questions': Question.objects.all()
-#     }
-#     return render(request, 'project/create_project.html', context)
+@login_required()
+def CreateProject(request):
+    context = {
+        'questions': Question.objects.all()
+    }
+    return render(request, 'project/create_project.html', context)
 
 
-# def create_project(request):
-#     project_form = ProjectForm(request.POST, prefix="primary")
-#     question_form = QuestionForm(request.POST, prefix="Question")
-#     choice_form = ChoiceForm(request.POST, prefix="Choice")
-#     if request.POST():
-#         a_valid = project_form.is_valid()
-#         b_valid = question_form.is_valid()
-#         c_valid = choice_form.is_valid()
-#         if a_valid and b_valid and c_valid:
-#             a = formA.save()
-#             b = formB.save(commit=False)
-#             c = formC.save(commit=False)
-#             b.foreignkeytoA = a
-#             b.save()
-#             c.foreignkeytoB = b
-#             c.save()
-
-    # return render_to_response('multi_model.html', {
-    #     'primary_form': primary_form,
-    #     'b_form': b_form,
-    #     'c_form': c_form,
-    # })
+def create_project(request):
+    if request.method == "POST":
+        projectForm = ProjectForm(request.POST, instance=Project())
+        questionForm = QuestionForm(request.POST,  instance=Question())
+        choiceForm = ChoiceForm(request.POST, instance=Choice())
 
 
 # @login_required()
