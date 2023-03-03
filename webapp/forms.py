@@ -24,6 +24,7 @@ class ProjectForm(forms.ModelForm):
 class Project02Form(ModelForm):
     class Meta:
         model = Project
+        fields = {}
 
 
 class QuestionForm(ModelForm):

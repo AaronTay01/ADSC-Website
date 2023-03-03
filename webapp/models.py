@@ -57,7 +57,7 @@ class Question(models.Model):
 
 
 class Choice(models.Model):
-    question = models.ForeignKey(Question, related_name="question", on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, related_name="question_choice", on_delete=models.CASCADE)
     option = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
