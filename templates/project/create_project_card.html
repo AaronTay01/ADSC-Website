@@ -1,0 +1,124 @@
+{#{% load bootstrap4 %}#}
+{#{% load crispy_forms_tags %}#}
+<div class="row">
+    {#    <div hx-target="this" hx-swap="outerHTML" class="col d-flex justify-content-center">#}
+    {#        <form method="POST">#}
+    {#            {% csrf_token %}#}
+    {#            {{ projectset.as_p }}#}
+    {#            <button hx-post=".">Submit</button>#}
+    {#        </form>#}
+    <div class="col d-flex justify-content-center">
+        <form method="POST">
+            <div class="card mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Fill in Project Description:</h6>
+                </div>
+                <div class="card-body">
+                    {% csrf_token %}
+{#                    {{ form.as_p|crispy }}#}
+{#                    {% crispy form %}#}
+                    {{ form.as_p }}
+                    <div><button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" type="submit">Submit
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+{#            <!-- checkbox button -->#}
+{#            <div class="card mb-4">#}
+{#                <div class="card-header py-3">#}
+{#                    <h6 class="m-0 font-weight-bold text-primary">What is the type of data used in this application?#}
+{#                        Multiple options can be selected:</h6>#}
+{#                </div>#}
+{#                <div class="card-body">#}
+{#                    <div class="custom-control custom-checkbox">#}
+{#                        <input type="checkbox" class="custom-control-input" id="customControlValidation1" required>#}
+{#                        <label class="custom-control-label" for="customControlValidation1">Check this custom#}
+{#                            checkbox</label>#}
+{#                        <div class="invalid-feedback">Example invalid feedback text</div>#}
+{#                    </div>#}
+{#                    <div class="custom-control custom-checkbox">#}
+{#                        <input type="checkbox" class="custom-control-input" id="customControlValidation2" required>#}
+{#                        <label class="custom-control-label" for="customControlValidation2">Check this custom#}
+{#                            checkbox</label>#}
+{#                        <div class="invalid-feedback">Example invalid feedback text</div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{##}
+{##}
+{#            <!-- radio button -->#}
+{#            <div class="card mb-4">#}
+{#                <div class="card-header py-3">#}
+{#                    <h6 class="m-0 font-weight-bold text-primary">What is the sensitivity level of this data#}
+{#                        type?</h6>#}
+{#                </div>#}
+{#                <div class="card-body">#}
+{#                    <div class="custom-control custom-radio">#}
+{#                        <input type="radio" class="custom-control-input" id="customControlValidation22"#}
+{#                               name="radio-stacked" required>#}
+{#                        <label class="custom-control-label" for="customControlValidation22">Toggle this custom#}
+{#                            radio</label>#}
+{#                    </div>#}
+{#                    <div class="custom-control custom-radio mb-3">#}
+{#                        <input type="radio" class="custom-control-input" id="customControlValidation33"#}
+{#                               name="radio-stacked" required>#}
+{#                        <label class="custom-control-label" for="customControlValidation33">Or toggle this other custom#}
+{#                            radio</label>#}
+{#                        <div class="invalid-feedback">More example invalid feedback text</div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{##}
+{##}
+{#            <!-- TextField -->#}
+{#            <div class="card mb-4">#}
+{#                <div class="card-header py-3">#}
+{#                    <h6 class="m-0 font-weight-bold text-primary">What is the sensitivity level of this data#}
+{#                        type?</h6>#}
+{#                </div>#}
+{#                <div class="card-body">#}
+{#                    <div class="form-row">#}
+{#                        <div class="col-md-6 mb-3">#}
+{#                            <input type="text" class="form-control" id="validationTooltip03" required>#}
+{#                            <div class="invalid-tooltip">#}
+{#                                Please provide a valid text.#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+
+
+{#            <!-- Dropdown No Arrow -->#}
+{#            <div class="card mb-4">#}
+{#                <div class="card-header py-3">#}
+{#                    <h6 class="m-0 font-weight-bold text-primary">Dropdown - No Arrow</h6>#}
+{#                </div>#}
+{#                <div class="card-body">#}
+{#                    <div class="dropdown no-arrow mb-4">#}
+{#                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"#}
+{#                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+{#                            Dropdown (no arrow)#}
+{#                        </button>#}
+{#                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">#}
+{#                            <a class="dropdown-item" href="#">Action</a>#}
+{#                            <a class="dropdown-item" href="#">Another action</a>#}
+{#                            <a class="dropdown-item" href="#">Something else here</a>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    Add the <code>.no-arrow</code> class alongside the <code>.dropdown</code>#}
+{#                </div>#}
+{#            </div>#}
+
+{#        </form>#}
+{#    <button class="btn btn-primary" type="submit" hx-get="{% url 'project-form' %}" hx-swap="beforeend" hx-target="#projectform">Submit form</button>#}
+{#        <div id="projectform">#}
+<!-- submit form -->
+
+{#</div>#}
+{#</div>#}

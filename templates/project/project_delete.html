@@ -1,0 +1,76 @@
+{% extends "core/base.html" %}
+{% block title %}Delete Project{% endblock %}
+{% block content %}
+    {% load static %}
+
+    <body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        {% include 'core/sidebar.html' %}
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                {% include 'core/topbar.html' %}
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Create Project</h1>
+                    </div>
+                    <!-- Delete Project -->
+                    <div class="row">
+                        <div class="col d-flex justify-content-center">
+                            <form method="POST">
+                                {% csrf_token %}
+                                <div class="card mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-1 font-weight-bold text-primary">Delete Project {{ object.title }}, Are you
+                                            Sure?</h6>
+                                        <div>
+                                            <button class="m-1 d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"
+                                                    type="submit">Yes
+                                            </button>
+                                            <a class="m-1 d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm"
+                                               href="{% url 'detail-project' object.id %}">Cancel
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    {% include 'auth/logout.html' %}
+
+
+{% endblock content %}
