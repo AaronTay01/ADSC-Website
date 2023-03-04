@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 
-# from webapp.views import dashboard, questionaire, project
+from webapp.views import dashboard, questionaire, project
 from webapp.views.project import (
     # detail_project,
     # delete_project,
@@ -18,6 +18,7 @@ from webapp.views.project import (
 from webapp.views.dashboard import (
     ProjectListView
 )
+
 # from webapp.views.questionaire import (
 #     QuestionCreateView
 # )
@@ -29,6 +30,7 @@ urlpatterns = [
                   path('project/<pk>/', ProjectDetailView.as_view(), name='detail-project'),
                   path('project/<pk>/update/', ProjectUpdateView.as_view(), name='update-project'),
                   path('project/<pk>/delete/', ProjectDeleteView.as_view(), name='delete-project'),
+                  path('project/<pk>/questionaire/', questionaire.show_questionaire, name='show-questionaire'),
                   # path('htmx/project/<pk>/delete/', delete_project, name='delete-project'),
                   # path('htmx/project/<pk>/update/', update_project, name='update-project'),
                   path('login/', auth_views.LoginView.as_view(template_name="auth/login.html"), name='login'),

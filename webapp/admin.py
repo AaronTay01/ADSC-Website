@@ -1,9 +1,9 @@
 from django.contrib import admin
-from webapp.models import Project, Question, Choice, Answer
+from webapp.models import Project, Question, Choice, Questionaire
 
 
 class AnswerInLineAdmin(admin.TabularInline):
-    model = Answer
+    model = Questionaire
 
 
 class ProjectAdmin(admin.ModelAdmin):
@@ -12,7 +12,9 @@ class ProjectAdmin(admin.ModelAdmin):
 
 class ChoiceInLineAdmin(admin.TabularInline):
     model = Choice
-    max_num = 1
+    min_num = 2
+    max_num = 4
+    can_delete = True
 
 
 class QuestionAdmin(admin.ModelAdmin):

@@ -29,8 +29,8 @@ class Project(models.Model):
     def get_absolute_url(self):
         return reverse('detail-project', kwargs={'pk': self.pk})
 
-    def getQuestionText(self):
-        return self.Question.question_text
+    # def getQuestionText(self):
+    #     return self.Question.question_text
 
 
 class Question(models.Model):
@@ -43,34 +43,31 @@ class Question(models.Model):
         (TYPE_QUESTION_FIELD, "Field"),
         (TYPE_QUESTION_MULTIPLE_CHOICE, "Multiple Choice"),
     )
-
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     question_text = models.CharField(max_length=200)
     type_question = models.CharField(max_length=255, choices=TYPE_QUESTION, default='TEXT')
-
-    option1 = models.CharField(max_length=100, null=True, blank=True)
-    option2 = models.CharField(max_length=100, null=True, blank=True)
-    option3 = models.CharField(max_length=100, null=True, blank=True)
-    option4 = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
         return self.question_text
 
 
+# Each question have multiple Choices
 class Choice(models.Model):
-    question = models.ForeignKey(Question, related_name="question_choice", on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, related_name="choice", on_delete=models.CASCADE)
     option = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
-        return self.question.question_text
+        return f"{self.question.question_text}:{self.option}"
 
 
-class Answer(models.Model):
+# Each questionaire has multiple questions & belong to a project
+class Questionaire(models.Model):
     project = models.ForeignKey(Project, related_name="project", on_delete=models.CASCADE)
-    question = models.ForeignKey(Question, related_name="question", on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, related_name="questionaire", on_delete=models.CASCADE)
     answer_text = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.question.question_text
+        return f"{self.question.question_text}:{self.answer_text}"
 
 # class Questionaire(models.Model):
 #     TYPE_QUESTION_CHECKBOX = 'Multiple Choice Checkbox'

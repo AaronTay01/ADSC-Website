@@ -6,8 +6,7 @@ from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseRedire
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 
-from webapp.forms import ProjectForm, ChoiceForm, QuestionForm
-from webapp.models import Project, Question, Choice
+from webapp.models import Project
 
 from django.views.generic import (
     DetailView,
@@ -15,44 +14,6 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-
-
-@login_required()
-def CreateProject(request):
-    context = {
-        'questions': Question.objects.all()
-    }
-    return render(request, 'project/create_project.html', context)
-
-
-def create_project(request):
-    if request.method == "POST":
-        projectForm = ProjectForm(request.POST, instance=Project())
-        questionForm = QuestionForm(request.POST,  instance=Question())
-        choiceForm = ChoiceForm(request.POST, instance=Choice())
-
-
-# @login_required()
-# def create_project(request):
-#     project = ProjectForm(request.POST or None)
-#
-#     if request.method == "POST":
-#         if project.is_valid():
-#             project = project.save(commit=False)
-#             project.user = request.user
-#             project.save()
-#             messages.success(request, 'Project has been created')
-#             return redirect("detail-project", pk=project.id)
-#         else:
-#             return render(request, "project/partials/project_form.html", {
-#                 "project": project
-#             })
-#
-#     context = {
-#         "projectset": project
-#     }
-#
-#     return render(request, 'project/create_project.html', context)
 
 
 class ProjectDetailView(DetailView):
