@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 
-from .models import Project, Question, Choice, Questionaire
+from .models import Project, Question, Choice, Answer
 from django.forms.models import inlineformset_factory, ModelForm
 
 
@@ -21,7 +21,7 @@ class ProjectForm(forms.ModelForm):
 #
 #         )
 
-class QuestionaireForm(ModelForm):
+class QuestionaireForm(forms.Form):
     question_1 = forms.ChoiceField(widget=forms.RadioSelect,
                                    choices=())
 
@@ -29,21 +29,22 @@ class QuestionaireForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.question = question
         del self.fields["question_1"]
-        for question in question.question_set.all():
-            choices = [(choice.id, choice.text) for choice in question.choice_set.all()]
+        for question in question.objects.all():
+            choices = [(choice.id, choice.option) for choice in question.choice_set.all()]
             self.fields[f"question_{question.id}"] = forms.ChoiceField(widget=forms.RadioSelect, choices=choices)
             self.fields[f"question_{question.id}"].label = question.question_text
 
     def save(self):
+        # save as questionaire together with project id
         data = self.cleaned_data
-        questionaire = Questionaire(project=self.project)
-        questionaire.save()
+        answer = Answer(project=self.project)
+        answer.save()
         for question in self.project.question_set.all():
             choice = Choice.objects.get(pk=data[f"question_{question.id}"])
-            questionaire.answer.add(choice)
+            answer.add(choice)
 
-        questionaire.save()
-        return questionaire
+        answer.save()
+        return answer
 
 
 class QuestionForm(ModelForm):

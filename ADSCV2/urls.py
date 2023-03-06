@@ -30,7 +30,7 @@ urlpatterns = [
                   path('project/<pk>/', ProjectDetailView.as_view(), name='detail-project'),
                   path('project/<pk>/update/', ProjectUpdateView.as_view(), name='update-project'),
                   path('project/<pk>/delete/', ProjectDeleteView.as_view(), name='delete-project'),
-                  path('project/<pk>/questionaire/', questionaire.show_questionaire, name='show-questionaire'),
+                  path('questionaire/<pk>/', questionaire.show_questionaire, name='show-questionaire'),
                   # path('htmx/project/<pk>/delete/', delete_project, name='delete-project'),
                   # path('htmx/project/<pk>/update/', update_project, name='update-project'),
                   path('login/', auth_views.LoginView.as_view(template_name="auth/login.html"), name='login'),

@@ -44,7 +44,7 @@
                                     <a class="m-1 d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
                                                href="{% url 'update-project' object.id %}">Update Project</a>
                                     <a class="m-1 d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
-                                        href="#">Update Questionaire</a>
+                                        href="{% url 'show-questionaire' project.id %}">Update Questionaire</a>
                                     <a class="m-1 d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"
                                         href="{% url 'delete-project' object.id %}">Delete Project</a>
                                 </div>

@@ -6,7 +6,7 @@ from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseRedire
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 
-from webapp.models import Project
+from webapp.models import Project, Question
 
 from django.views.generic import (
     DetailView,
@@ -40,7 +40,9 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        return super().form_valid(form)
+        created = super().form_valid(form)
+        Questionaire.objects.create(project_id=self.object.pk)
+        return created
 
 
 class ProjectUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):

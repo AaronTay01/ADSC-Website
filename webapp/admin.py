@@ -1,13 +1,11 @@
 from django.contrib import admin
-from webapp.models import Project, Question, Choice, Questionaire
+from webapp.models import Project, Question, Choice, Answer
 
 
-class AnswerInLineAdmin(admin.TabularInline):
-    model = Questionaire
-
-
-class ProjectAdmin(admin.ModelAdmin):
-    inlines = [AnswerInLineAdmin]
+# class QuestionaireInLineAdmin(admin.TabularInline):
+#     model = Questionaire
+#     min_num = 1
+#     can_delete = True
 
 
 class ChoiceInLineAdmin(admin.TabularInline):
@@ -21,5 +19,23 @@ class QuestionAdmin(admin.ModelAdmin):
     inlines = [ChoiceInLineAdmin]
 
 
-admin.site.register(Project, ProjectAdmin)
+class QuestionInLineAdmin(admin.TabularInline):
+    model = Question
+
+
+class QuestionaireAdmin(admin.ModelAdmin):
+    inlines = [QuestionInLineAdmin]
+
+
+class AnswerInLineAdmin(admin.TabularInline):
+    model = Answer
+
+
+class AnswerAdmin(admin.ModelAdmin):
+    inlines = [QuestionInLineAdmin]
+
+
+admin.site.register(Project)
 admin.site.register(Question, QuestionAdmin)
+# admin.site.register(Questionaire, QuestionaireAdmin)
+admin.site.register(Answer)

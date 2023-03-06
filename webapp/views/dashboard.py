@@ -1,13 +1,14 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views.generic import ListView
 
 from webapp.models import Project
 
 
-class ProjectListView(ListView):
+class ProjectListView(LoginRequiredMixin, ListView):
     model = Project
-    template_name = 'dashboard/dashboard.html'  # <app>/<model>_<viewtype>.html
+    template_name = 'dashboard/dashboard.html'
     context_object_name = 'projects'
     ordering = ['-date_posted']
 
