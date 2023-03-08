@@ -27,7 +27,15 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">{{ project.date_posted }}</h1>
+                        <h1 class="h3 mb-0 font-weight-bolder{% if project.project_status == project.TYPE_PROJECT_PENDING %}
+                                text-primary
+                            {% elif project.project_status == project.TYPE_PROJECT_COMPLETED %}
+                                text-success
+                            {% elif project.project_status == project.TYPE_PROJECT_IN_PROGRESS %}
+                                text-info
+                            {% else %}
+                                text-danger
+                            {% endif %}">{{ project.get_project_status_display }}</h1>
                     </div>
                     <!-- Project View -->
                     <div class="row">
@@ -35,18 +43,24 @@
                             <div class="card mb-4">
                                 <div class="card-header py-3">
                                     <h3 class="mb-n1 font-weight-bold text-primary">{{ project.title }}</h3>
-
-                                    </a>
                                 </div>
-                                <div class="card-body">
-                                    <h5 class="m-1 font-weight-bold text-secondary">Description:</h5>
+                                <div class="card-body" style="width: 45rem;">
+                                    <h6 class="m-1 font-weight-bold text-secondary">Description:</h6>
+                                    <hr>
                                     <h6 class="m-1 font-weight-bold text-secondary">{{ project.description }}</h6>
-                                    <a class="m-1 d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
-                                               href="{% url 'update-project' object.id %}">Update Project</a>
-                                    <a class="m-1 d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
-                                        href="{% url 'show-questionaire' project.id %}">Update Questionaire</a>
-                                    <a class="m-1 d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"
-                                        href="{% url 'delete-project' object.id %}">Delete Project</a>
+                                    <hr>
+                                    <div style="float: right;">
+                                        <a class="m-1 d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm
+                                            {% if user.id != project.user.id %} disabled {% endif %}"
+                                           href="{% url 'update-project' object.id %}">Update Project</a>
+                                        <a class="m-1 d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm
+                                            {% if user.id != project.user.id %} disabled {% endif %}"
+                                           href="{% url 'show-questionaire' project.id %}">Update Questionaire</a>
+                                        <a class="m-1 d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm
+                                            {% if user.id != project.user.id %} disabled {% endif %}"
+                                           href="{% url 'delete-project' object.id %}">Delete Project</a>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>

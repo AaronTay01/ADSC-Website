@@ -25,17 +25,28 @@ class QuestionaireForm(forms.Form):
     question_1 = forms.ChoiceField(widget=forms.RadioSelect,
                                    choices=())
 
-    def __init__(self, question, *args, **kwargs):
+    def __init__(self, questions, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.question = question
+        self.question = questions
         del self.fields["question_1"]
-        for question in question.objects.all():
-            choices = [(choice.id, choice.option) for choice in question.choice_set.all()]
-            self.fields[f"question_{question.id}"] = forms.ChoiceField(widget=forms.RadioSelect, choices=choices)
-            self.fields[f"question_{question.id}"].label = question.question_text
+        for question in questions.objects.all():
+            field_name = f"question_{question.id}"
+            if question.type_question == question.TYPE_QUESTION_MULTIPLE_CHOICE:
+                choices = [(choice.id, choice.option) for choice in question.choice_set.all()]
+                self.fields[f"question_{question.id}"] = forms.ChoiceField(widget=forms.RadioSelect,
+                                                                           choices=choices)
+            elif question.type_question == question.TYPE_QUESTION_CHECKBOX:
+                choices = [(choice.id, choice.option) for choice in question.choice_set.all()]
+                self.fields[field_name] = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
+                                                                    choices=choices)
+            else:
+                self.fields[field_name] = forms.ChoiceField(widget=forms.TextInput)
+
+            self.fields[field_name].label = question.question_text
 
     def save(self):
         # save as questionaire together with project id
+        print("hello")
         data = self.cleaned_data
         answer = Answer(project=self.project)
         answer.save()

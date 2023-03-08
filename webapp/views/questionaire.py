@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 
 from webapp.forms import ProjectForm, QuestionForm, ChoiceForm, QuestionaireForm
-from webapp.models import Project, Choice, Question, Answer
+from webapp.models import Project, Choice, Question, Answer, Response
 
 from django.views.generic import (
     DetailView,
@@ -16,10 +16,10 @@ from django.views.generic import (
 
 
 def show_questionaire(request, pk):
-    answer = get_object_or_404(Question, pk=pk)
+    response = get_object_or_404(Response, pk=pk)
     form = QuestionaireForm(Question)
     context = {
-        "question": answer,
+        "response": response,
         "form": form
     }
     return render(request, "questionaire/questionaire.html", context)
@@ -27,7 +27,7 @@ def show_questionaire(request, pk):
 
 def post_questionaire(request):
     if request.method == "POST":
-        answerForm = QuestionaireForm(request.POST, instance=Questionaire())
+        answerForm = QuestionaireForm(request.POST, instance=Response())
     return render(request, "")
 
 

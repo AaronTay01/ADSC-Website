@@ -1,3 +1,4 @@
+{% load crispy_forms_tags %}
 <div class="row">
     <div class="col d-flex justify-content-center">
         <!-- Dropdown No Arrow -->
@@ -8,7 +9,7 @@
             <div class="card-body">
                 <form method="POST">
                     {% csrf_token %}
-                    {{ form.as_p }}
+                    {{ form|crispy }}
                     <div>
                         <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" type="submit">Submit
                         </button>

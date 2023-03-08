@@ -1,5 +1,5 @@
 {#{% load bootstrap4 %}#}
-{#{% load crispy_forms_tags %}#}
+{% load crispy_forms_tags %}
 <div class="row">
     {#    <div hx-target="this" hx-swap="outerHTML" class="col d-flex justify-content-center">#}
     {#        <form method="POST">#}
@@ -13,11 +13,10 @@
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Fill in Project Description:</h6>
                 </div>
-                <div class="card-body">
+                <div class="card-body" style="width: 45rem;">
                     {% csrf_token %}
-{#                    {{ form.as_p|crispy }}#}
-{#                    {% crispy form %}#}
-                    {{ form.as_p }}
+                    {{ form|crispy }}
+{#                    {{ form.as_p }}#}
                     <div><button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" type="submit">Submit
                         </button>
                     </div>

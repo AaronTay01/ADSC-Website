@@ -10,17 +10,22 @@ class Project(models.Model):
     date_posted = models.DateTimeField(default=timezone.now)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    TYPE_PROJECT_PENDING = 'PD'
+    TYPE_PROJECT_COMPLETED = 'CP'
+    TYPE_PROJECT_IN_PROGRESS = 'IP'
+    TYPE_PROJECT_DROPPED = 'DP'
+
     PROJECT_STATUS_CHOICES = [
-        ('PD', 'Pending'),
-        ('CP', 'Completed'),
-        ('IP', 'In Progress'),
-        ('DP', 'Dropped'),
+        (TYPE_PROJECT_PENDING, 'Pending'),
+        (TYPE_PROJECT_COMPLETED, 'Completed'),
+        (TYPE_PROJECT_IN_PROGRESS, 'In Progress'),
+        (TYPE_PROJECT_DROPPED, 'Dropped'),
     ]
 
     project_status = models.CharField(
         max_length=2,
         choices=PROJECT_STATUS_CHOICES,
-        default='Pending',
+        default=TYPE_PROJECT_PENDING,
     )
 
     def __str__(self):
@@ -30,11 +35,11 @@ class Project(models.Model):
         return reverse('detail-project', kwargs={'pk': self.pk})
 
 
-# class Questionaire(models.Model):
-#     title = models.CharField(max_length=100)
-#
-#     # def __str__(self):
-#     #     self.title
+class Response(models.Model):
+    project = models.ForeignKey(Project, related_name="project", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.project.title}:"
 
 
 class Question(models.Model):
@@ -67,14 +72,14 @@ class Choice(models.Model):
 
 # Each questionaire has multiple questions & belong to a project
 class Answer(models.Model):
-    project = models.ForeignKey(Project, related_name="project", on_delete=models.PROTECT)
-    # questionaire = models.ForeignKey(Questionaire, related_name="questionaire", on_delete=models.PROTECT)
-    question = models.ForeignKey(Question, related_name="question", null=True, blank=True, on_delete=models.CASCADE)
-    choice = models.ForeignKey(Choice, related_name="choice", null=True, blank=True, on_delete=models.CASCADE)
+    response = models.ForeignKey(Response, related_name="response", on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, related_name="question", null=True, blank=True, on_delete=models.PROTECT)
+    choice = models.ForeignKey(Choice, related_name="choice", null=True, blank=True, on_delete=models.PROTECT)
     answer_text = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.project.title}:{self.question.question_text}:{self.answer_text}"
+        return self.project.title
+        # return f"{self.project.title}:{self.question.question_text}:{self.answer_text}"
 
 # QUESTIONS = [{"What is the type of data used in this application?":["Personally Identifiable Information",
 # "Location", 'Health Records', 'Grants and Subsidies '], "What is the type of data used in this application?

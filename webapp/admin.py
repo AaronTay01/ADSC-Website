@@ -1,5 +1,5 @@
 from django.contrib import admin
-from webapp.models import Project, Question, Choice, Answer
+from webapp.models import Project, Question, Choice, Answer, Response
 
 
 # class QuestionaireInLineAdmin(admin.TabularInline):
@@ -10,7 +10,6 @@ from webapp.models import Project, Question, Choice, Answer
 
 class ChoiceInLineAdmin(admin.TabularInline):
     model = Choice
-    min_num = 2
     max_num = 4
     can_delete = True
 
@@ -31,11 +30,16 @@ class AnswerInLineAdmin(admin.TabularInline):
     model = Answer
 
 
-class AnswerAdmin(admin.ModelAdmin):
-    inlines = [QuestionInLineAdmin]
+class ResponseInLineAdmin(admin.TabularInline):
+    model = Answer
+
+
+class ResponseAdmin(admin.ModelAdmin):
+    inlines = [AnswerInLineAdmin]
 
 
 admin.site.register(Project)
 admin.site.register(Question, QuestionAdmin)
 # admin.site.register(Questionaire, QuestionaireAdmin)
+admin.site.register(Response, ResponseAdmin)
 admin.site.register(Answer)
