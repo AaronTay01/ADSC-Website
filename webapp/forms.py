@@ -40,20 +40,19 @@ class QuestionaireForm(forms.Form):
                 self.fields[field_name] = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
                                                                     choices=choices)
             else:
-                self.fields[field_name] = forms.ChoiceField(widget=forms.TextInput)
+                self.fields[field_name] = forms.CharField(widget=forms.TextInput)
 
             self.fields[field_name].label = question.question_text
 
     def save(self):
-        # save as questionaire together with project id
-        print("hello")
         data = self.cleaned_data
-        answer = Answer(project=self.project)
+        answer = Answer(question=self.question)
         answer.save()
-        for question in self.project.question_set.all():
+        for question in self.question.question_set.all():
             choice = Choice.objects.get(pk=data[f"question_{question.id}"])
-            answer.add(choice)
+            answer.answer.add(choice)
 
+        print("hello")
         answer.save()
         return answer
 

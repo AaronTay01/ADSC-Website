@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 
 from webapp.forms import ProjectForm, QuestionForm, ChoiceForm, QuestionaireForm
 from webapp.models import Project, Choice, Question, Answer, Response
@@ -16,19 +17,31 @@ from django.views.generic import (
 
 
 def show_questionaire(request, pk):
-    response = get_object_or_404(Response, pk=pk)
-    form = QuestionaireForm(Question)
+    response = get_object_or_404(Response, pk=pk)  # get response instance where project.id == response.id
+    project = get_object_or_404(Project, pk=pk)
+
+    post_data = request.POST if request.method == "POST" else None
+    form = QuestionaireForm(Question, post_data)
+    # form = QuestionaireForm(Question)
+
+    url = reverse("show-questionaire", args=(id,))
+    if form.is_valid():
+        form.save()
+        messages.add_message(request, messages.INFO, 'Submissions saved.')
+        return redirect(url)
+
     context = {
         "response": response,
-        "form": form
+        "form": form,
+        "project": project,
     }
     return render(request, "questionaire/questionaire.html", context)
 
 
-def post_questionaire(request):
-    if request.method == "POST":
-        answerForm = QuestionaireForm(request.POST, instance=Response())
-    return render(request, "")
+# def post_questionaire(request):
+#     if request.method == "POST":
+#         answerForm = QuestionaireForm(request.POST, instance=Response())
+#     return render(request, "")
 
 
 def create_question(request):

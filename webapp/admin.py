@@ -28,6 +28,7 @@ class QuestionaireAdmin(admin.ModelAdmin):
 
 class AnswerInLineAdmin(admin.TabularInline):
     model = Answer
+    max_num = 1
 
 
 class ResponseInLineAdmin(admin.TabularInline):

@@ -73,12 +73,13 @@ class Choice(models.Model):
 # Each questionaire has multiple questions & belong to a project
 class Answer(models.Model):
     response = models.ForeignKey(Response, related_name="response", on_delete=models.CASCADE)
-    question = models.ForeignKey(Question, related_name="question", null=True, blank=True, on_delete=models.PROTECT)
-    choice = models.ForeignKey(Choice, related_name="choice", null=True, blank=True, on_delete=models.PROTECT)
-    answer_text = models.CharField(max_length=100, null=True, blank=True)
+    # question = models.ForeignKey(Question, related_name="question", null=True, blank=True, on_delete=models.PROTECT)
+    # choice = models.ForeignKey(Choice, related_name="choice", null=True, blank=True, on_delete=models.PROTECT)
+    # answer_text = models.CharField(max_length=100, null=True, blank=True)
+    answer = models.ManyToManyField(Choice)
 
-    def __str__(self):
-        return self.project.title
+    # def __str__(self):
+    #     return self.response.id
         # return f"{self.project.title}:{self.question.question_text}:{self.answer_text}"
 
 # QUESTIONS = [{"What is the type of data used in this application?":["Personally Identifiable Information",
