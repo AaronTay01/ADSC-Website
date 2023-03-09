@@ -6,14 +6,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
-from webapp.forms import ProjectForm, QuestionForm, ChoiceForm, QuestionaireForm
-from webapp.models import Project, Choice, Question, Answer, Survey
-
-from django.views.generic import (
-    DetailView,
-    CreateView,
-    UpdateView,
-)
+from webapp.forms import QuestionForm, ChoiceForm, QuestionaireForm
+from webapp.models import Choice, Question, Survey
 
 
 def show_questionaire(request, pk):

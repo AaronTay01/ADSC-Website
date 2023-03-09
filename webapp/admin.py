@@ -36,4 +36,4 @@ class SurveyAdmin(admin.ModelAdmin):
 admin.site.register(Project)
 admin.site.register(Survey, SurveyAdmin)
 admin.site.register(Question, QuestionAdmin)
-admin.site.register(Answer)
+# admin.site.register(Answer)

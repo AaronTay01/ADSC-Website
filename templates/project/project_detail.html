@@ -60,6 +60,7 @@
                                             {% if user.id != project.user.id %} disabled {% endif %}"
                                            href="{% url 'delete-project' object.id %}">Delete Project</a>
                                     </div>
+                                    <figcaption class="blockquote-footer">Created by {{ project.user }}, {{ project.date_posted|date:"d M Y" }}</figcaption>
 
                                 </div>
                             </div>

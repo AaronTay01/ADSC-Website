@@ -41,15 +41,18 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         created = super().form_valid(form)
-        Survey.objects.create(project_id=self.object.pk)  # Create empty Response Instance
-        # TODO: Add questions to survey object
+        Survey.objects.create(project_id=self.object.pk)  # Create empty Survey Instance
+        questions = Question.objects.all()
+        for question in questions:
+            question.survey.add(self.object.pk)
+            print(self.object.pk)
         return created
 
 
 class ProjectUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Project
     template_name = "project/create_project.html"
-    fields = ['title', 'description']
+    fields = ['title', 'description', 'project_status']
 
     def form_valid(self, form):
         form.instance.user = self.request.user

@@ -12,6 +12,7 @@ class ProjectForm(forms.ModelForm):
         fields = (
             "title",
             "description",
+            "project_status",
         )
 
 
@@ -21,6 +22,16 @@ class ProjectForm(forms.ModelForm):
 #         fields = (
 #
 #         )
+
+def intersect(list1, list2):
+    sorted(list1)
+    sorted(list2)
+
+    list3 = set(list1).intersection(list2)
+
+    # print(list3)
+    return list3
+
 
 class QuestionaireForm(forms.ModelForm):
     class Meta:
@@ -34,16 +45,28 @@ class QuestionaireForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.survey = survey
         # del self.fields["question_1"]
+
+        answers = survey.answer_set.first()
+        selected_choices = {} if answers is None else [(selected_choice.id, selected_choice.option)
+                                                       for selected_choice in
+                                                       answers.answer_choice.all()]
+
         for question in survey.question_set.all():
             field_name = f"question_{question.id}"
+            choices = [(choice.id, choice.option) for choice in question.choice_set.all()]
+            question_selected_choice = intersect(selected_choices, choices)
             if question.type_question == question.TYPE_QUESTION_MULTIPLE_CHOICE:
-                choices = [(choice.id, choice.option) for choice in question.choice_set.all()]
                 self.fields[f"question_{question.id}"] = forms.ChoiceField(widget=forms.RadioSelect,
                                                                            choices=choices)
+                self.fields[f"question_{question.id}"].initial = question_selected_choice.pop() \
+                    if question_selected_choice else None
+
             elif question.type_question == question.TYPE_QUESTION_CHECKBOX:
-                choices = [(choice.id, choice.option) for choice in question.choice_set.all()]
                 self.fields[field_name] = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
                                                                     choices=choices)
+                if question_selected_choice:
+                    choices = [(item[0]) for item in question_selected_choice]
+                    self.fields[f"question_{question.id}"].initial = choices
             else:
                 self.fields[field_name] = forms.CharField(widget=forms.TextInput)
 
@@ -51,12 +74,12 @@ class QuestionaireForm(forms.ModelForm):
 
     def save(self):
         data = self.cleaned_data
-        # TODO: get object instead of creating new
-
-        object_survey = get_object_or_404(Survey, id=self.survey.id)
+        survey_object = get_object_or_404(Survey, id=self.survey.id)
         # print(object_survey.answer_set.all())
 
-        answer = object_survey.answer_set.first()
+        answer = survey_object.answer_set.first()
+        answer.answer_choice.clear() if answer is not None else False
+
         if answer is None:
             answer = Answer(survey=self.survey)
             answer.save()
@@ -76,7 +99,6 @@ class QuestionaireForm(forms.ModelForm):
             #     answer.answer_text.add(textAns)
 
         answer.save()
-        # return answer
 
 
 class QuestionForm(ModelForm):

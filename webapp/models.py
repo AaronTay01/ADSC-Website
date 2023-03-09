@@ -39,7 +39,7 @@ class Survey(models.Model):
     project = models.ForeignKey(Project, related_name="project", on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.project.title}:"
+        return f"{self.project.title}: Survey Answers"
 
 
 class Question(models.Model):
@@ -77,14 +77,6 @@ class Answer(models.Model):
     # answer_text = models.CharField(max_length=100, null=True, blank=True)
     answer_choice = models.ManyToManyField(Choice, blank=True)
 
-    # def __str__(self):
-    #     return self.response.id
+    def __str__(self):
+        return f"{self.survey.project.title}: Answers"
     # return f"{self.project.title}:{self.question.question_text}:{self.answer_text}"
-
-# QUESTIONS = [{"What is the type of data used in this application?":["Personally Identifiable Information",
-# "Location", 'Health Records', 'Grants and Subsidies '], "What is the type of data used in this application?
-# Multiple options can be selected" "What is the sensitivity level of this data type?", "What are the user roles for
-# the application?", "Which data does the user has access to?", "What operations are allowed on that data by that
-# user?" }]
-
-# QUESTION_CHOICES = []
