@@ -35,7 +35,7 @@ class Project(models.Model):
         return reverse('detail-project', kwargs={'pk': self.pk})
 
 
-class Response(models.Model):
+class Survey(models.Model):
     project = models.ForeignKey(Project, related_name="project", on_delete=models.CASCADE)
 
     def __str__(self):
@@ -52,8 +52,7 @@ class Question(models.Model):
         (TYPE_QUESTION_FIELD, "Field"),
         (TYPE_QUESTION_MULTIPLE_CHOICE, "Multiple Choice"),
     )
-    # questionaire = models.ForeignKey(Questionaire, related_name="questionaire", null=True, blank=True,
-    #                                  on_delete=models.PROTECT)
+    survey = models.ManyToManyField(Survey, blank=True)
     question_text = models.CharField(max_length=200)
     type_question = models.CharField(max_length=255, choices=TYPE_QUESTION, default='TEXT')
 
@@ -72,15 +71,15 @@ class Choice(models.Model):
 
 # Each questionaire has multiple questions & belong to a project
 class Answer(models.Model):
-    response = models.ForeignKey(Response, related_name="response", on_delete=models.CASCADE)
-    # question = models.ForeignKey(Question, related_name="question", null=True, blank=True, on_delete=models.PROTECT)
+    survey = models.ForeignKey(Survey, on_delete=models.PROTECT)
+    question = models.ForeignKey(Question, related_name="question", null=True, blank=True, on_delete=models.PROTECT)
     # choice = models.ForeignKey(Choice, related_name="choice", null=True, blank=True, on_delete=models.PROTECT)
     # answer_text = models.CharField(max_length=100, null=True, blank=True)
-    answer = models.ManyToManyField(Choice)
+    answer_choice = models.ManyToManyField(Choice, blank=True)
 
     # def __str__(self):
     #     return self.response.id
-        # return f"{self.project.title}:{self.question.question_text}:{self.answer_text}"
+    # return f"{self.project.title}:{self.question.question_text}:{self.answer_text}"
 
 # QUESTIONS = [{"What is the type of data used in this application?":["Personally Identifiable Information",
 # "Location", 'Health Records', 'Grants and Subsidies '], "What is the type of data used in this application?

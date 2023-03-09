@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 from webapp.forms import ProjectForm, QuestionForm, ChoiceForm, QuestionaireForm
-from webapp.models import Project, Choice, Question, Answer, Response
+from webapp.models import Project, Choice, Question, Answer, Survey
 
 from django.views.generic import (
     DetailView,
@@ -17,23 +17,20 @@ from django.views.generic import (
 
 
 def show_questionaire(request, pk):
-    response = get_object_or_404(Response, pk=pk)  # get response instance where project.id == response.id
-    project = get_object_or_404(Project, pk=pk)
+    survey = get_object_or_404(Survey, pk=pk)  # get response instance where project.id equals to response.id
 
     post_data = request.POST if request.method == "POST" else None
-    form = QuestionaireForm(Question, post_data)
-    # form = QuestionaireForm(Question)
+    form = QuestionaireForm(survey, post_data, instance=survey)
 
-    url = reverse("show-questionaire", args=(id,))
+    url = reverse("detail-project", args=(pk,))
     if form.is_valid():
         form.save()
         messages.add_message(request, messages.INFO, 'Submissions saved.')
         return redirect(url)
 
     context = {
-        "response": response,
+        "survey": survey,
         "form": form,
-        "project": project,
     }
     return render(request, "questionaire/questionaire.html", context)
 

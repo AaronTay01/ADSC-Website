@@ -6,7 +6,7 @@ from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseRedire
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 
-from webapp.models import Project, Question, Answer, Response
+from webapp.models import Project, Question, Answer, Survey
 
 from django.views.generic import (
     DetailView,
@@ -41,7 +41,8 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         created = super().form_valid(form)
-        Response.objects.create(project_id=self.object.pk)  # Create empty Response Instance
+        Survey.objects.create(project_id=self.object.pk)  # Create empty Response Instance
+        # TODO: Add questions to survey object
         return created
 
 

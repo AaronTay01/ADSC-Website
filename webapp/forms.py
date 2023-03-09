@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 
-from .models import Project, Question, Choice, Answer
+from .models import Project, Question, Choice, Survey, Answer
 from django.forms.models import inlineformset_factory, ModelForm
 
 
@@ -21,15 +22,19 @@ class ProjectForm(forms.ModelForm):
 #
 #         )
 
-class QuestionaireForm(forms.Form):
-    question_1 = forms.ChoiceField(widget=forms.RadioSelect,
-                                   choices=())
+class QuestionaireForm(forms.ModelForm):
+    class Meta:
+        model = Survey
+        fields = (
+        )
+    # question_1 = forms.ChoiceField(widget=forms.RadioSelect,
+    #                                choices=())
 
-    def __init__(self, questions, *args, **kwargs):
+    def __init__(self, survey, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.question = questions
-        del self.fields["question_1"]
-        for question in questions.objects.all():
+        self.survey = survey
+        # del self.fields["question_1"]
+        for question in survey.question_set.all():
             field_name = f"question_{question.id}"
             if question.type_question == question.TYPE_QUESTION_MULTIPLE_CHOICE:
                 choices = [(choice.id, choice.option) for choice in question.choice_set.all()]
@@ -46,15 +51,32 @@ class QuestionaireForm(forms.Form):
 
     def save(self):
         data = self.cleaned_data
-        answer = Answer(question=self.question)
-        answer.save()
-        for question in self.question.question_set.all():
-            choice = Choice.objects.get(pk=data[f"question_{question.id}"])
-            answer.answer.add(choice)
+        # TODO: get object instead of creating new
 
-        print("hello")
+        object_survey = get_object_or_404(Survey, id=self.survey.id)
+        # print(object_survey.answer_set.all())
+
+        answer = object_survey.answer_set.first()
+        if answer is None:
+            answer = Answer(survey=self.survey)
+            answer.save()
+
+        for question in self.survey.question_set.all():
+            if question.type_question == question.TYPE_QUESTION_MULTIPLE_CHOICE:
+                choice = Choice.objects.get(pk=data[f"question_{question.id}"])
+                answer.answer_choice.add(choice)
+            if question.type_question == question.TYPE_QUESTION_CHECKBOX:
+                for pk in data[f"question_{question.id}"]:
+                    choice = Choice.objects.get(pk=pk)
+                    answer.answer_choice.add(choice)
+            # TODO: For CharField
+            # else:
+            #     print(data[f"question_{question.id}"])
+            #     textAns = data[f"question_{question.id}"]
+            #     answer.answer_text.add(textAns)
+
         answer.save()
-        return answer
+        # return answer
 
 
 class QuestionForm(ModelForm):
