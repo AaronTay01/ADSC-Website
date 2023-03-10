@@ -45,7 +45,6 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
         questions = Question.objects.all()
         for question in questions:
             question.survey.add(self.object.pk)
-            print(self.object.pk)
         return created
 
 

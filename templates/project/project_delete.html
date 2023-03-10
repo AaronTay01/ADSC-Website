@@ -27,7 +27,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Create Project</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Delete Project</h1>
                     </div>
                     <!-- Delete Project -->
                     <div class="row">
@@ -35,9 +35,11 @@
                             <form method="POST">
                                 {% csrf_token %}
                                 <div class="card mb-4">
-                                    <div class="card-header py-3">
-                                        <h6 class="m-1 font-weight-bold text-primary">Delete Project {{ object.title }}, Are you
-                                            Sure?</h6>
+                                    <div class="card-header py-3 text-center">
+                                        <h6 class="m-1 font-weight-bold text-primary">Delete Project: {{ object.title }}</h6>
+                                        <h6 class="m-1 font-weight-bold text-primary">Are you Sure?</h6>
+                                    </div>
+                                    <div class="card-body text-center">
                                         <div>
                                             <button class="m-1 d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"
                                                     type="submit">Yes
