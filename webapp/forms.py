@@ -55,6 +55,7 @@ class QuestionaireForm(forms.ModelForm):
             field_name = f"question_{question.id}"
             choices = [(choice.id, choice.option) for choice in question.choice_set.all()]
             question_selected_choice = intersect(selected_choices, choices)
+
             if question.type_question == question.TYPE_QUESTION_MULTIPLE_CHOICE:
                 self.fields[f"question_{question.id}"] = forms.ChoiceField(widget=forms.RadioSelect,
                                                                            choices=choices)
@@ -67,6 +68,7 @@ class QuestionaireForm(forms.ModelForm):
                 if question_selected_choice:
                     choices = [(item[0]) for item in question_selected_choice]
                     self.fields[f"question_{question.id}"].initial = choices
+
             else:
                 self.fields[field_name] = forms.CharField(widget=forms.TextInput)
 
